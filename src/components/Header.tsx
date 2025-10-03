@@ -1,9 +1,12 @@
 "use client";
 
 import { navLinks } from "@/data/navLinks";
+import type { NavKey } from "@/data/navLinks";
+import type { Language } from "@/lib/language";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import BaseLink from "./BaseLink";
+import LanguageToggle from "./LanguageToggle";
 import ThemeToggle from "./ThemeToggle";
 
 function isActive(pathname: string, href: string) {
@@ -13,14 +16,24 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export default function Header() {
+interface HeaderProps {
+  language: Language;
+  brand: string;
+  navLabels: Record<NavKey, string>;
+  languageToggle: {
+    label: string;
+    options: { id: string; en: string };
+  };
+}
+
+export default function Header({ language, brand, navLabels, languageToggle }: HeaderProps) {
   const pathname = usePathname() ?? "/";
 
   return (
     <header className="sitebar">
       <div className="bar wrap">
         <Link href="/" className="brand pill">
-          Rifqy Hazim HR
+          {brand}
         </Link>
         <nav className="pills">
           {navLinks.map((link) => (
@@ -30,9 +43,10 @@ export default function Header() {
               className="pill"
               aria-current={isActive(pathname, link.href) ? "page" : undefined}
             >
-              {link.label}
+              {navLabels[link.key]}
             </BaseLink>
           ))}
+          <LanguageToggle language={language} label={languageToggle.label} options={languageToggle.options} />
           <ThemeToggle />
         </nav>
       </div>

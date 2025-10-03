@@ -1,16 +1,13 @@
 import BaseLink from "./BaseLink";
-import type { UpdateItem } from "@/data/updates";
-import { updates as defaultUpdates } from "@/data/updates";
+import type { UpdateItem } from "@/i18n/dictionaries";
 
-type UpdatesListProps = {
-  items?: UpdateItem[];
+interface UpdatesListProps {
+  items: UpdateItem[];
   showAllLink?: boolean;
-};
+  allLinkLabel: string;
+}
 
-export default function UpdatesList({
-  items = defaultUpdates,
-  showAllLink = true,
-}: UpdatesListProps) {
+export default function UpdatesList({ items, showAllLink = true, allLinkLabel }: UpdatesListProps) {
   return (
     <>
       <div className="grid" style={{ marginTop: "14px" }}>
@@ -24,7 +21,7 @@ export default function UpdatesList({
       {showAllLink && (
         <div style={{ marginTop: "14px" }}>
           <BaseLink className="pill" href="/updates">
-            Lihat semua Updates →
+            {allLinkLabel}
           </BaseLink>
         </div>
       )}

@@ -1,22 +1,23 @@
-import type { Metadata } from "next";
 import NextSteps from "@/components/NextSteps";
 import UpdatesList from "@/components/UpdatesList";
+import { getDictionary } from "@/i18n/dictionaries";
+import { getCurrentLanguage } from "@/lib/language";
 
-export const metadata: Metadata = {
-  title: "Updates — Rifqy Hazim HR",
-};
+export default async function UpdatesPage() {
+  const language = await getCurrentLanguage();
+  const dictionary = getDictionary(language);
+  const { updates, home, nextStepsHeading, navLabels } = dictionary;
 
-export default function UpdatesPage() {
   return (
     <div>
-      <h1 className="h1">Updates</h1>
-      <p className="sub">Kurasi kabar & insight singkat seputar AI, Web, dan 5 industri masa depan.</p>
+      <h1 className="h1">{updates.title}</h1>
+      <p className="sub">{updates.intro}</p>
 
-      <UpdatesList showAllLink={false} />
+      <UpdatesList items={updates.list} showAllLink={false} allLinkLabel={home.updatesCta.label} />
 
       <hr />
 
-      <NextSteps current="updates" />
+      <NextSteps current="updates" heading={nextStepsHeading} navLabels={navLabels} />
     </div>
   );
 }

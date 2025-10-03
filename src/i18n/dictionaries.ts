@@ -1,0 +1,1010 @@
+import type { NavKey } from "@/data/navLinks";
+import type { Language } from "@/lib/language";
+
+interface LinkCard {
+  href: string;
+  title: string;
+  sub: string;
+}
+
+interface PillLink {
+  href: string;
+  label: string;
+}
+
+export interface UpdateItem {
+  href: string;
+  title: string;
+  summary: string;
+}
+
+export interface UpdateDetail {
+  title: string;
+  date: string;
+  intro: string;
+  sections: Array<{ heading: string; body: string }>;
+  grids?: Array<{ heading: string; items: LinkCard[] }>;
+}
+
+export interface IndustryDetail {
+  title: string;
+  intro: string;
+  mindsetHeading: string;
+  mindsetBody: string;
+  examplesHeading: string;
+  examples: LinkCard[];
+  actionsHeading: string;
+  actions: LinkCard[];
+}
+
+interface LearningCard {
+  id: string;
+  title: string;
+  points: Array<{ title: string; body: string }>;
+}
+
+export interface Dictionary {
+  brand: string;
+  navLabels: Record<NavKey, string>;
+  languageToggle: {
+    label: string;
+    options: { id: string; en: string };
+  };
+  nextStepsHeading: string;
+  general: {
+    backToUpdates: string;
+    dateLabel: string;
+    backToIndustry: string;
+  };
+  home: {
+    heroName: string;
+    heroRole: string;
+    heroDescription: string;
+    ctas: PillLink[];
+    quotesLabel: string;
+    quote: string;
+    whatIDoHeading: string;
+    whatIDo: LinkCard[];
+    playbooksHeading: string;
+    playbooksDescription: string;
+    playbooksCta: PillLink;
+    learningHeading: string;
+    learningItems: LinkCard[];
+    updatesHeading: string;
+    updatesCta: PillLink;
+  };
+  about: {
+    title: string;
+    intro: string;
+    philosophyHeading: string;
+    philosophyBody: string;
+    workHeading: string;
+    workItems: LinkCard[];
+    learningHeading: string;
+    learningItems: LinkCard[];
+  };
+  updates: {
+    title: string;
+    intro: string;
+    list: UpdateItem[];
+    details: Record<string, UpdateDetail>;
+  };
+  industry: {
+    title: string;
+    intro: string;
+    playbooks: LinkCard[];
+    learningHeading: string;
+    learningDescription: string;
+    learningCards: LearningCard[];
+  };
+  industryDetails: {
+    ai: IndustryDetail;
+    crypto: IndustryDetail;
+    biotech: IndustryDetail;
+    energy: IndustryDetail;
+    space: IndustryDetail;
+  };
+  works: {
+    title: string;
+    intro: string;
+    buttons: PillLink[];
+    gallery: LinkCard[];
+  };
+  projects: {
+    title: string;
+    intro: string;
+    buttons: PillLink[];
+    gallery: LinkCard[];
+  };
+  contact: {
+    title: string;
+    contacts: LinkCard[];
+    faqHeading: string;
+    faq: LinkCard[];
+  };
+}
+
+const dictionaries: Record<Language, Dictionary> = {
+  id: {
+    brand: "Rifqy Hazim HR",
+    navLabels: {
+      about: "About",
+      updates: "Updates",
+      industry: "Playbooks",
+      works: "Works",
+      projects: "Projects",
+      contact: "Contact",
+    },
+    languageToggle: {
+      label: "Bahasa",
+      options: { id: "ID", en: "EN" },
+    },
+    nextStepsHeading: "Jelajah Berikutnya",
+    general: {
+      backToUpdates: "← Kembali ke Updates",
+      dateLabel: "Tanggal",
+      backToIndustry: "← Kembali ke Playbooks",
+    },
+    home: {
+      heroName: "Rifqy Hazim HR",
+      heroRole: "AI Prompter & Strategist · Web Developer",
+      heroDescription:
+        "Saya merancang pengalaman digital dengan AI—ringkas, terukur, dan bisa dipakai hari ini.",
+      ctas: [
+        { href: "/works", label: "Lihat Works ↗" },
+        { href: "/industry", label: "Belajar AI (Gratis) ↗" },
+      ],
+      quotesLabel: "Quotes",
+      quote:
+        "In the beginning there was dark. Until someone set themselves aflame. Only then did the universe know light.",
+      whatIDoHeading: "Apa yang Saya Lakukan",
+      whatIDo: [
+        {
+          href: "/works",
+          title: "Prompt Engineering",
+          sub: "Video, image, text—dari ide ke hasil.",
+        },
+        {
+          href: "/projects",
+          title: "Web Delivery",
+          sub: "Landing ringan & cepat (Astro · GitHub).",
+        },
+        {
+          href: "/industry",
+          title: "Strategy & Edukasi",
+          sub: "Playbooks & kerangka kerja yang bisa dipakai.",
+        },
+      ],
+      playbooksHeading: "Playbooks",
+      playbooksDescription:
+        "Kerangka kerja praktis untuk lima industri masa depan—AI→AGI/ASI, Crypto, Biotechnology, Energi Terbarukan, dan Space.",
+      playbooksCta: {
+        href: "/industry",
+        label: "Lihat Playbooks & Edukasi AI →",
+      },
+      learningHeading: "Learning Hub",
+      learningItems: [
+        {
+          href: "/industry#ai-basics",
+          title: "AI Basics",
+          sub: "Konsep inti, istilah, dan etika; landasan yang aman & praktis.",
+        },
+        {
+          href: "/industry#prompt-patterns",
+          title: "Prompt Patterns",
+          sub: "Polanya apa, kapan dipakai, dan cara menghindari jebakan umum.",
+        },
+        {
+          href: "/industry#tools-workflow",
+          title: "Tools & Workflow",
+          sub: "Pipeline dari brief → eksperimen → hasil, dengan contoh alat yang ringan.",
+        },
+      ],
+      updatesHeading: "Updates",
+      updatesCta: { href: "/updates", label: "Lihat semua updates →" },
+    },
+    about: {
+      title: "About",
+      intro:
+        "Saya fokus pada AI Prompting, Strategi, dan Web Development. Misinya sederhana: menghadirkan solusi digital yang ringkas, terukur, dan siap dipakai hari ini—tanpa membagikan data pribadi sensitif.",
+      philosophyHeading: "Filosofi & Cara Pandang",
+      philosophyBody:
+        "Teknologi bernilai ketika membantu orang menyelesaikan pekerjaan dengan lebih baik. Prinsip kerja saya: jelas (tujuan & batasan), cepat (iterasi kecil), dan aman (minim data sensitif). Motto: Ad Astra Abyssosque—menjelajah kemungkinan setinggi langit dan sedalam mungkin secara disiplin.",
+      workHeading: "Apa yang Saya Lakukan",
+      workItems: [
+        {
+          href: "/works",
+          title: "Prompt Engineering",
+          sub: "Video · Image · Text — dari ide ke hasil.",
+        },
+        {
+          href: "/projects",
+          title: "Web Delivery",
+          sub: "Landing ringan & cepat (Astro · GitHub · Vercel).",
+        },
+        {
+          href: "/industry",
+          title: "Strategy & Edukasi",
+          sub: "Playbooks & kerangka kerja yang bisa direplikasi.",
+        },
+      ],
+      learningHeading: "Learning Hub",
+      learningItems: [
+        { href: "/industry", title: "AI Basics", sub: "" },
+        { href: "/industry", title: "Prompt Patterns", sub: "" },
+        { href: "/industry", title: "Tools & Workflow", sub: "" },
+      ],
+    },
+    updates: {
+      title: "Updates",
+      intro: "Kurasi kabar & insight singkat seputar AI, Web, dan 5 industri masa depan.",
+      list: [
+        {
+          href: "/updates/ai-web",
+          title: "AI & Web: Kolaborasi Masa Depan",
+          summary:
+            "Kenapa integrasi AI dan Web penting untuk kreator dan developer modern.",
+        },
+        {
+          href: "/updates/5-industries",
+          title: "Lima Industri Masa Depan yang Sedang Memanas",
+          summary:
+            "AI, Crypto, Biotech, Renewable Energy, Space — ekosistem inovasi yang saling menguatkan.",
+        },
+        {
+          href: "/updates/prompt-engineering",
+          title: "Belajar Prompt Engineering dengan Pendekatan Praktis",
+          summary:
+            "Metode iterasi 3 langkah untuk hasil AI yang stabil dan terukur.",
+        },
+      ],
+      details: {
+        "ai-web": {
+          title: "AI & Web: Kolaborasi Masa Depan",
+          date: "2025-08-09",
+          intro:
+            "AI semakin matang, dan Web bergerak menuju paradigma baru. Integrasi keduanya bukan lagi wacana—kita sudah melihatnya di banyak sektor: e-commerce memanfaatkan AI untuk personalisasi, aplikasi terdesentralisasi (Web3) mengandalkan AI untuk pengambilan keputusan otonom, dan situs modern memakai AI di belakang layar untuk optimasi konten serta layanan.",
+          sections: [
+            {
+              heading: "Arah Perkembangan",
+              body:
+                "Web modern akan makin mengandalkan AI untuk memahami konteks pengguna, merangkai konten real-time, dan mengotomasi proses. Di sisi lain, pendekatan terdesentralisasi (Web3) memberi kerangka keterbukaan data & verifiabilitas. Keduanya saling melengkapi: AI memberi kecerdasan; Web memberi jangkauan & dampak.",
+            },
+          ],
+          grids: [
+            {
+              heading: "Kenapa Penting",
+              items: [
+                {
+                  href: "",
+                  title: "AI = “Otak” Sistem Digital",
+                  sub: "Menganalisis data, memahami konteks, dan memberi rekomendasi/aksi yang relevan.",
+                },
+                {
+                  href: "",
+                  title: "Web = “Dunia” Tempat AI Bekerja",
+                  sub: "Antarmuka, distribusi, dan interaksi pengguna—dari browser ke API hingga automations.",
+                },
+              ],
+            },
+            {
+              heading: "Contoh yang Sudah Terjadi",
+              items: [
+                {
+                  href: "",
+                  title: "E-commerce Cerdas",
+                  sub: "Chatbot, rekomendasi produk, dan konten dinamis menyesuaikan perilaku pengguna.",
+                },
+                {
+                  href: "",
+                  title: "Governance di Aplikasi Terdesentralisasi",
+                  sub: "Model AI membantu menganalisis proposal & diskusi komunitas untuk ringkasan netral.",
+                },
+              ],
+            },
+          ],
+        },
+        "5-industries": {
+          title: "Lima Industri Masa Depan yang Sedang Memanas",
+          date: "2025-08-09",
+          intro:
+            "Artificial Intelligence, Crypto, Biotechnology, Renewable Energy, dan Space Exploration bukan sekadar wacana masa depan; dampaknya terasa sekarang. AI mempercepat riset & produksi konten; crypto membuka ekonomi digital yang terprogram; biotech mendorong kesehatan & pangan; energi terbarukan menurunkan emisi; dan eksplorasi antariksa menyuplai data penting untuk sektor di Bumi. Kelimanya saling menguatkan—menciptakan ekosistem inovasi yang sulit diabaikan.",
+          sections: [
+            {
+              heading: "Kenapa Relevan Sekarang",
+              body:
+                "Kurva biaya turun, akses informasi meningkat, dan tools makin mudah dipakai. Artinya: individu & tim kecil bisa bermain di level yang dulu hanya mungkin bagi korporasi besar. Momentum ini adalah kesempatan untuk belajar cepat, bereksperimen, dan membangun portofolio yang nyata.",
+            },
+          ],
+          grids: [
+            {
+              heading: "Sorotan Singkat",
+              items: [
+                { href: "", title: "AI", sub: "Otomasi kreatif & analitis; dari tooling kreator sampai asisten riset yang adaptif." },
+                { href: "", title: "Crypto", sub: "Aset yang bisa diprogram; tokenisasi & smart contracts memudahkan koordinasi ekonomi." },
+                { href: "", title: "Biotech", sub: "Terapi molekuler, pangan presisi, dan material hayati yang ramah lingkungan." },
+                { href: "", title: "Renewables", sub: "Surya/angin + baterai & smart grid → biaya turun, pasokan stabil." },
+                { href: "", title: "Space", sub: "Data satelit untuk pertanian, logistik, cuaca, dan mitigasi bencana." },
+              ],
+            },
+          ],
+        },
+        "prompt-engineering": {
+          title: "Belajar Prompt Engineering dengan Pendekatan Praktis",
+          date: "2025-08-09",
+          intro:
+            "Prompt engineering adalah seni menyusun instruksi yang jelas, bernuansa, dan terukur untuk AI. Kuncinya bukan sekadar ‘panjang’ atau ‘pendek’, tetapi struktur: tujuan, konteks, batasan, dan gaya. Dengan struktur yang tepat, hasil AI menjadi konsisten dan dapat diandalkan untuk kerja nyata.",
+          sections: [
+            {
+              heading: "Tips Kualitas Output",
+              body:
+                "Gunakan bahasa yang spesifik, nyatakan batasan sejak awal, dan minta model menjelaskan alasan di balik jawabannya saat perlu transparansi. Simpan prompt yang berhasil sebagai pattern agar produksi berikutnya lebih cepat.",
+            },
+          ],
+          grids: [
+            {
+              heading: "Metode Ringkas: Iterasi 3 Langkah",
+              items: [
+                { href: "", title: "1) Draft Awal", sub: "Buat instruksi dasar untuk menguji pemahaman model terhadap tujuan kamu." },
+                { href: "", title: "2) Penajaman Detail", sub: "Tambahkan batasan, parameter, dan contoh singkat agar output makin presisi." },
+                { href: "", title: "3) Uji Variasi", sub: "Coba sudut pandang & format berbeda; pilih yang paling stabil untuk dijadikan template." },
+              ],
+            },
+          ],
+        },
+      },
+    },
+    industry: {
+      title: "Playbooks & Edukasi AI",
+      intro:
+        "Pilih tema untuk membaca ringkasan, dampak potensial, dan cara mulai secara praktis.",
+      playbooks: [
+        { href: "/industry/ai", title: "AI → AGI → ASI", sub: "Dari sistem spesifik ke kecerdasan umum & melampaui manusia: peluang & etika." },
+        { href: "/industry/crypto", title: "Crypto in Finance", sub: "Blockchain, tokenisasi aset, smart contracts, dan model ekonomi baru." },
+        { href: "/industry/biotech", title: "Biotechnology", sub: "Rekayasa genetika, terapi molekuler, pangan presisi, material hayati." },
+        { href: "/industry/energy", title: "Renewable Energy", sub: "Surya, angin, air, geotermal, biomassa + baterai & smart grid." },
+        { href: "/industry/space", title: "Space Exploration", sub: "Satelit, earth observation, eksplorasi planet, dan ekonomi orbit." },
+      ],
+      learningHeading: "Learning Hub",
+      learningDescription:
+        "Pengantar singkat yang menyatu—ringkas, edukatif, dan siap dipakai sebagai pijakan awal.",
+      learningCards: [
+        {
+          id: "ai-basics",
+          title: "AI Basics",
+          points: [
+            {
+              title: "Gambaran Umum.",
+              body:
+                "AI Basics adalah pondasi untuk memahami bagaimana mesin belajar dan mengambil keputusan. Fokusnya pada pembedaan AI sempit (narrow AI) dan AI umum (AGI) dengan penjelasan yang mudah diikuti tanpa latar belakang teknis.",
+            },
+            {
+              title: "Penerapan Nyata.",
+              body:
+                "Rekomendasi konten, asisten suara, hingga filter spam email—contoh sehari-hari bagaimana AI bekerja di belakang layar.",
+            },
+            {
+              title: "Langkah Awal.",
+              body:
+                "Coba chatbot publik dan baca artikel pengantar seputar model, data, dan algoritma untuk mendapatkan peta konsep dasar.",
+            },
+          ],
+        },
+        {
+          id: "prompt-patterns",
+          title: "Prompt Patterns",
+          points: [
+            {
+              title: "Gambaran Umum.",
+              body:
+                "Prompt Patterns mengajarkan cara menyusun instruksi efektif. Kualitas output sangat dipengaruhi kejelasan konteks dan detail.",
+            },
+            {
+              title: "Penerapan Nyata.",
+              body:
+                "Desainer memakai pola deskriptif untuk konsistensi visual; penulis menggunakan pola langkah-demi-langkah agar struktur tetap runtut.",
+            },
+            {
+              title: "Langkah Awal.",
+              body:
+                "Ambil prompt singkat, tambah detail soal tujuan & batasan, lalu bandingkan hasil untuk memilih versi paling stabil.",
+            },
+          ],
+        },
+        {
+          id: "tools-workflow",
+          title: "Tools & Workflow",
+          points: [
+            {
+              title: "Gambaran Umum.",
+              body:
+                "Mengenalkan ekosistem alat: generator teks/gambar, editor video berbasis AI, dan integrasi API sesuai kebutuhan.",
+            },
+            {
+              title: "Penerapan Nyata.",
+              body:
+                "Dari ide → visual mock → skrip → video: setiap tahap memakai tool berbeda namun saling terhubung untuk iterasi cepat.",
+            },
+            {
+              title: "Langkah Awal.",
+              body:
+                "Pilih satu tool relevan, buat proyek mini dari satu paragraf ide ke output jadi, lalu evaluasi perbaikan iterasi berikutnya.",
+            },
+          ],
+        },
+      ],
+    },
+    industryDetails: {
+      ai: {
+        title: "🧠 AI → AGI → ASI",
+        intro:
+          "Dari AI spesifik tugas menuju kecerdasan umum dan potensi melampaui manusia: peluang besar sekaligus tanggung jawab etis.",
+        mindsetHeading: "Mindset Shift: Dari AI ke AGI",
+        mindsetBody:
+          "AI hari ini menguasai tugas sempit (penerjemahan, rekomendasi). AGI menargetkan kemampuan lintas-domain: bisa mentransfer pengetahuan dari satu bidang ke bidang lain dan memecahkan masalah baru. ASI adalah tahap ketika kemampuan ini melampaui manusia—membuka lompatan produktivitas sekaligus isu tata kelola, bias, dan kontrol.",
+        examplesHeading: "Contoh Nyata",
+        examples: [
+          { href: "#multimodal", title: "Asisten Kreatif Multimodal", sub: "Dari brief 1 paragraf: hasilkan skrip video + storyboard + still images." },
+          { href: "#research", title: "Agent Riset Ringkas", sub: "Kumpulkan ringkasan 3 sumber tepercaya untuk topik tertentu, beserta kontra-argumen." },
+        ],
+        actionsHeading: "Langkah Aksi (Minim Effort)",
+        actions: [
+          { href: "#prompt", title: "Eksperimen Prompt", sub: "Ambil satu ide produk → uji di AI teks & gambar. Catat 3 versi prompt + perbedaan output." },
+          { href: "#guardrails", title: "Guardrails Pribadi", sub: "Tentukan 3 batasan etis saat memakai AI dan terapkan konsisten." },
+        ],
+      },
+      crypto: {
+        title: "⛓️ Crypto in Finance",
+        intro:
+          "Keuangan berbasis blockchain: transfer nilai global, tokenisasi aset, dan smart contracts yang bisa diprogram.",
+        mindsetHeading: "Mindset Shift: Aset yang Bisa Diprogram",
+        mindsetBody:
+          "Crypto bukan sekadar ‘uang digital’, melainkan aset yang bisa diprogram. Kepemilikan dan aturan main tercatat di blockchain: transparan, dapat diverifikasi, dan berjalan tanpa perantara.",
+        examplesHeading: "Contoh Nyata",
+        examples: [
+          { href: "#token", title: "Tokenisasi Properti", sub: "Kepemilikan apartemen dipecah menjadi token—membuka akses fractional ownership." },
+          { href: "#payment", title: "Pembayaran Global", sub: "Remitansi lintas negara memotong perantara: biaya lebih rendah, settlement lebih cepat." },
+        ],
+        actionsHeading: "Langkah Aksi (Minim Effort)",
+        actions: [
+          { href: "#wallet", title: "Coba Wallet Testnet", sub: "Buat wallet di jaringan uji, kirim token faucet untuk memahami flow tanpa risiko." },
+          { href: "#contract", title: "Baca Kontrak Sederhana", sub: "Pelajari struktur smart contract dasar untuk memahami hak & batasan pengguna." },
+        ],
+      },
+      biotech: {
+        title: "🧬 Biotechnology",
+        intro:
+          "Biologi + kimia + teknologi untuk kesehatan, pangan, dan material masa depan—didongkrak AI untuk riset lebih cepat.",
+        mindsetHeading: "Mindset Shift: Biotech di Kehidupan Sehari-hari",
+        mindsetBody:
+          "Bioteknologi tidak hanya tentang medis. Dari bio-materials ramah lingkungan sampai pertanian presisi, dampaknya menyentuh rantai pasok pangan hingga limbah industri.",
+        examplesHeading: "Contoh Nyata",
+        examples: [
+          { href: "#protein", title: "Protein/Obat yang Dirancang AI", sub: "Desain molekul lebih cepat → kandidat terapi baru lebih cepat diuji." },
+          { href: "#precision", title: "Pertanian Presisi", sub: "Sensor + AI memandu irigasi & pemupukan tepat sasaran." },
+        ],
+        actionsHeading: "Langkah Aksi (Minim Effort)",
+        actions: [
+          { href: "#database", title: "Ikuti Satu Database Publik", sub: "Pilih sumber tepercaya dan ringkas 1 inovasi per minggu dengan bahasa awam." },
+          { href: "#map", title: "Map Aplikasi Lokal", sub: "Catat 3 potensi penerapan biotech di kota/komunitasmu." },
+        ],
+      },
+      energy: {
+        title: "⚡ Renewable Energy",
+        intro:
+          "Transisi energi bersih: surya, angin, air, geotermal, biomassa—ditopang baterai skala besar dan smart grid.",
+        mindsetHeading: "Mindset Shift: Investasi Jangka Panjang",
+        mindsetBody:
+          "Energi terbarukan bukan hanya soal ‘lebih hijau’. Ini strategi biaya jangka panjang, resiliensi pasokan, dan peluang bisnis dari instalasi hingga pemeliharaan.",
+        examplesHeading: "Contoh Nyata",
+        examples: [
+          { href: "#solar", title: "Atap Surya Rumah Tangga", sub: "Produksi listrik lokal; kadang surplus bisa disalurkan ke grid." },
+          { href: "#battery", title: "Baterai + Smart Meter", sub: "Simpan energi di jam murah, pakai di jam mahal—optimasi biaya." },
+        ],
+        actionsHeading: "Langkah Aksi (Minim Effort)",
+        actions: [
+          { href: "#audit", title: "Audit Kecil Konsumsi", sub: "Ambil kWh 1 bulan, identifikasi 3 peralatan paling boros." },
+          { href: "#calculator", title: "Kalkulator Potensi Surya", sub: "Perkirakan output atap berdasarkan luas & iradiasi kota." },
+        ],
+      },
+      space: {
+        title: "🚀 Space Exploration",
+        intro:
+          "Dari misi pemerintah ke ekonomi komersial: satelit, Earth Observation, eksplorasi planet, dan pasar layanan data orbit.",
+        mindsetHeading: "Mindset Shift: Data Antariksa untuk Bumi",
+        mindsetBody:
+          "Eksplorasi ruang angkasa menghasilkan data observasi bumi yang kritikal untuk pertanian, logistik, mitigasi bencana, hingga tata kelola lingkungan—bukan hanya ‘pergi ke Mars’.",
+        examplesHeading: "Contoh Nyata",
+        examples: [
+          { href: "#soil", title: "Pemetaan Kelembaban Tanah", sub: "Citra satelit membantu petani mengidentifikasi area kekeringan." },
+          { href: "#fires", title: "Monitoring Kebakaran Hutan", sub: "Heat signatures dan asap terdeteksi dini untuk respons cepat." },
+        ],
+        actionsHeading: "Langkah Aksi (Minim Effort)",
+        actions: [
+          { href: "#maps", title: "Jelajah Peta Satelit Publik", sub: "Coba platform data satelit terbuka untuk melihat cuaca/awan real-time." },
+          { href: "#usecase", title: "Idekan 1 Use-Case Lokal", sub: "Tulis 1 paragraf bagaimana data satelit bisa bantu isu di kotamu." },
+        ],
+      },
+    },
+    works: {
+      title: "Karya",
+      intro: "Showcase terkurasi (manual). Untuk saat ini, tombol di bawah mengarah ke Google Drive.",
+      buttons: [
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", label: "AI Generated Video" },
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", label: "AI Generated Image" },
+      ],
+      gallery: [
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", title: "AI Generated Video (1)", sub: "Prompt & scene direction" },
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", title: "AI Generated Image (1)", sub: "Prompt engineering" },
+      ],
+    },
+    projects: {
+      title: "Projects",
+      intro: "Daftar proyek publik. Saat ini, dua tombol mengarah ke Google Drive.",
+      buttons: [
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", label: "AI Generated Video" },
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", label: "AI Generated Image" },
+      ],
+      gallery: [
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", title: "AI Video – Prototype", sub: "Storyboard & direction" },
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", title: "AI Image – Prototype", sub: "Prompt style exploration" },
+      ],
+    },
+    contact: {
+      title: "Contact",
+      contacts: [
+        { href: "mailto:rifqyhazimforbs@gmail.com", title: "Email", sub: "rifqyhazimforbs@gmail.com" },
+        { href: "https://wa.me/6282123008601", title: "WhatsApp", sub: "082123008601" },
+        { href: "https://github.com/rifqyhazim22", title: "GitHub", sub: "rifqyhazim22" },
+        { href: "https://instagram.com/rifqy__hazim._", title: "Instagram", sub: "@rifqy__hazim._" },
+      ],
+      faqHeading: "FAQ (Cara Saya Bekerja)",
+      faq: [
+        { href: "#privacy", title: "Apakah website ini menyimpan data pribadi?", sub: "Tidak. Website ini tidak menampilkan nomor, alamat, atau identitas sensitif." },
+        { href: "#tools", title: "Apa tools utama yang digunakan?", sub: "Astro untuk web statis cepat; GitHub untuk versioning; Vercel untuk deploy. AI tools untuk riset & produksi konten." },
+        { href: "#flow", title: "Seperti apa alur kerja tipikal?", sub: "Brief → definisi tujuan & batasan → prototipe cepat → iterasi singkat → delivery." },
+      ],
+    },
+  },
+  en: {
+    brand: "Rifqy Hazim HR",
+    navLabels: {
+      about: "About",
+      updates: "Updates",
+      industry: "Playbooks",
+      works: "Works",
+      projects: "Projects",
+      contact: "Contact",
+    },
+    languageToggle: {
+      label: "Language",
+      options: { id: "ID", en: "EN" },
+    },
+    nextStepsHeading: "Next Destinations",
+    general: {
+      backToUpdates: "← Back to Updates",
+      dateLabel: "Date",
+      backToIndustry: "← Back to Playbooks",
+    },
+    home: {
+      heroName: "Rifqy Hazim HR",
+      heroRole: "AI Prompter & Strategist · Web Developer",
+      heroDescription:
+        "I design AI-driven digital experiences—concise, measurable, and ready to use today.",
+      ctas: [
+        { href: "/works", label: "View Works ↗" },
+        { href: "/industry", label: "Learn AI (Free) ↗" },
+      ],
+      quotesLabel: "Quote",
+      quote:
+        "In the beginning there was dark. Until someone set themselves aflame. Only then did the universe know light.",
+      whatIDoHeading: "What I Do",
+      whatIDo: [
+        {
+          href: "/works",
+          title: "Prompt Engineering",
+          sub: "Video, image, text—from brief to final output.",
+        },
+        {
+          href: "/projects",
+          title: "Web Delivery",
+          sub: "Lightweight landings & fast iteration (Astro · GitHub).",
+        },
+        {
+          href: "/industry",
+          title: "Strategy & Education",
+          sub: "Reusable playbooks and frameworks.",
+        },
+      ],
+      playbooksHeading: "Playbooks",
+      playbooksDescription:
+        "Practical frameworks for five future industries—AI→AGI/ASI, Crypto, Biotechnology, Renewable Energy, and Space.",
+      playbooksCta: { href: "/industry", label: "Browse Playbooks & AI Education →" },
+      learningHeading: "Learning Hub",
+      learningItems: [
+        {
+          href: "/industry#ai-basics",
+          title: "AI Basics",
+          sub: "Core concepts, vocabulary, and ethics for a safe starting point.",
+        },
+        {
+          href: "/industry#prompt-patterns",
+          title: "Prompt Patterns",
+          sub: "When to use each pattern and how to avoid common traps.",
+        },
+        {
+          href: "/industry#tools-workflow",
+          title: "Tools & Workflow",
+          sub: "Pipeline from brief → experiment → result, with lightweight tooling examples.",
+        },
+      ],
+      updatesHeading: "Updates",
+      updatesCta: { href: "/updates", label: "See all updates →" },
+    },
+    about: {
+      title: "About",
+      intro:
+        "My focus areas are AI Prompting, Strategy, and Web Development. The mission is simple: deliver digital solutions that are concise, measurable, and production-ready today—while keeping sensitive personal data out of the workflow.",
+      philosophyHeading: "Philosophy & Perspective",
+      philosophyBody:
+        "Technology matters when it helps people ship better work. My operating principles: clarity (shared goals & boundaries), speed (small iterations), and safety (minimal sensitive data). Motto: Ad Astra Abyssosque—exploring as high and as deep as discipline allows.",
+      workHeading: "What I Work On",
+      workItems: [
+        {
+          href: "/works",
+          title: "Prompt Engineering",
+          sub: "Video · Image · Text—from idea to high-quality assets.",
+        },
+        {
+          href: "/projects",
+          title: "Web Delivery",
+          sub: "Lightweight landing pages (Astro · GitHub · Vercel).",
+        },
+        {
+          href: "/industry",
+          title: "Strategy & Education",
+          sub: "Modular playbooks and repeatable frameworks.",
+        },
+      ],
+      learningHeading: "Learning Hub",
+      learningItems: [
+        { href: "/industry", title: "AI Basics", sub: "" },
+        { href: "/industry", title: "Prompt Patterns", sub: "" },
+        { href: "/industry", title: "Tools & Workflow", sub: "" },
+      ],
+    },
+    updates: {
+      title: "Updates",
+      intro: "Short-form insight curation across AI, the modern web, and five future industries.",
+      list: [
+        {
+          href: "/updates/ai-web",
+          title: "AI & Web: The Collaboration Ahead",
+          summary:
+            "Why merging AI and web stacks matters for modern creators and developers.",
+        },
+        {
+          href: "/updates/5-industries",
+          title: "Five Industries Heating Up",
+          summary:
+            "AI, Crypto, Biotech, Renewables, Space—an innovation flywheel you can't ignore.",
+        },
+        {
+          href: "/updates/prompt-engineering",
+          title: "Learn Prompt Engineering the Practical Way",
+          summary:
+            "A three-step iteration method for dependable AI results.",
+        },
+      ],
+      details: {
+        "ai-web": {
+          title: "AI & Web: The Collaboration Ahead",
+          date: "2025-08-09",
+          intro:
+            "AI capabilities are compounding while the web shifts into new paradigms. Their integration is already here: e-commerce teams use AI for personalization, decentralized apps rely on AI to summarize governance debates, and modern sites plug AI in the background for content optimization and service delivery.",
+          sections: [
+            {
+              heading: "Where It's Going",
+              body:
+                "Expect more context-aware web experiences that stitch AI decisioning with open, verifiable data flows. AI delivers intelligence; the web delivers reach and impact.",
+            },
+          ],
+          grids: [
+            {
+              heading: "Why It Matters",
+              items: [
+                {
+                  href: "",
+                  title: "AI as the Decision Layer",
+                  sub: "Analyzes data, interprets context, and recommends relevant actions.",
+                },
+                {
+                  href: "",
+                  title: "Web as the Delivery Layer",
+                  sub: "Provides interfaces, distribution, and integrations across browsers, APIs, and automations.",
+                },
+              ],
+            },
+            {
+              heading: "Examples in the Wild",
+              items: [
+                {
+                  href: "",
+                  title: "Adaptive Commerce",
+                  sub: "Chatbots, recommendations, and dynamic content in sync with user behavior.",
+                },
+                {
+                  href: "",
+                  title: "DAO Governance",
+                  sub: "AI condenses proposals and debates into neutral summaries for faster decisions.",
+                },
+              ],
+            },
+          ],
+        },
+        "5-industries": {
+          title: "Five Industries Heating Up",
+          date: "2025-08-09",
+          intro:
+            "Artificial Intelligence, Crypto, Biotechnology, Renewable Energy, and Space Exploration are no longer distant bets. AI accelerates research and content; crypto opens programmable economies; biotech advances health and food systems; renewables cut emissions; and space tech supplies earth intelligence. Together they reinforce each other, creating an innovation ecosystem you can't overlook.",
+          sections: [
+            {
+              heading: "Why Now",
+              body:
+                "Falling costs, abundant information, and easier tooling mean individuals and small teams can compete with legacy players. It's the right moment to learn quickly, experiment often, and build tangible portfolios.",
+            },
+          ],
+          grids: [
+            {
+              heading: "Quick Highlights",
+              items: [
+                { href: "", title: "AI", sub: "Creative and analytical automation—from tooling for creators to adaptive research aides." },
+                { href: "", title: "Crypto", sub: "Programmable value flows, tokenized assets, and smart-contract coordination." },
+                { href: "", title: "Biotech", sub: "Precision therapies, food innovation, and sustainable biomaterials." },
+                { href: "", title: "Renewables", sub: "Generation plus storage and smart grids that stabilize supply." },
+                { href: "", title: "Space", sub: "Earth intelligence for agriculture, logistics, climate, and disaster mitigation." },
+              ],
+            },
+          ],
+        },
+        "prompt-engineering": {
+          title: "Learn Prompt Engineering the Practical Way",
+          date: "2025-08-09",
+          intro:
+            "Prompt engineering is the craft of writing precise, nuanced, and testable instructions for AI systems. Structure beats length: articulate goals, context, constraints, and tone. The payoff is consistent, production-grade outputs.",
+          sections: [
+            {
+              heading: "Quality Tips",
+              body:
+                "Use specific language, declare boundaries upfront, and request reasoning when transparency matters. Save the best-performing prompts as reusable patterns.",
+            },
+          ],
+          grids: [
+            {
+              heading: "Three-Step Iteration",
+              items: [
+                { href: "", title: "1) Draft", sub: "Ship a quick prompt to gauge model understanding." },
+                { href: "", title: "2) Refine", sub: "Add constraints, parameters, and micro examples for precision." },
+                { href: "", title: "3) Test Variations", sub: "Change perspective or format, keep the most stable output as your template." },
+              ],
+            },
+          ],
+        },
+      },
+    },
+    industry: {
+      title: "Playbooks & AI Education",
+      intro: "Pick a theme to explore the summary, potential impact, and practical starting points.",
+      playbooks: [
+        { href: "/industry/ai", title: "AI → AGI → ASI", sub: "From narrow systems to general and super intelligence: opportunities and ethics." },
+        { href: "/industry/crypto", title: "Crypto in Finance", sub: "Blockchain, asset tokenization, smart contracts, and new economic models." },
+        { href: "/industry/biotech", title: "Biotechnology", sub: "Genetic engineering, molecular therapy, precision food, biomaterials." },
+        { href: "/industry/energy", title: "Renewable Energy", sub: "Solar, wind, hydro, geothermal, biomass—plus batteries and smart grids." },
+        { href: "/industry/space", title: "Space Exploration", sub: "Satellites, earth observation, planetary exploration, orbital services." },
+      ],
+      learningHeading: "Learning Hub",
+      learningDescription:
+        "Short, connected primers—concise, educational, and ready to act on immediately.",
+      learningCards: [
+        {
+          id: "ai-basics",
+          title: "AI Basics",
+          points: [
+            {
+              title: "Overview.",
+              body:
+                "Foundational concepts outlining how models learn and make decisions—clarifying the difference between narrow AI and broader AGI ambitions.",
+            },
+            {
+              title: "Real-world Use.",
+              body:
+                "Recommendation systems, voice assistants, and spam filters illustrate how AI already supports daily life behind the scenes.",
+            },
+            {
+              title: "First Steps.",
+              body:
+                "Experiment with public chatbots and read concise explainers on models, data, and algorithms to build your mental map.",
+            },
+          ],
+        },
+        {
+          id: "prompt-patterns",
+          title: "Prompt Patterns",
+          points: [
+            {
+              title: "Overview.",
+              body:
+                "Prompt patterns teach you to structure instructions effectively. Specific context and detail drive consistent outputs.",
+            },
+            {
+              title: "Real-world Use.",
+              body:
+                "Designers lean on descriptive patterns for visual consistency; writers rely on step-by-step prompts for organized drafts.",
+            },
+            {
+              title: "First Steps.",
+              body:
+                "Start with a short prompt, add goals and constraints, compare outputs, and lock the version that stays reliable.",
+            },
+          ],
+        },
+        {
+          id: "tools-workflow",
+          title: "Tools & Workflow",
+          points: [
+            {
+              title: "Overview.",
+              body:
+                "Map the AI tool stack: text/image generators, AI-assisted video editors, and API integrations—all selected by objective.",
+            },
+            {
+              title: "Real-world Use.",
+              body:
+                "Idea → visual mock → script → video: each stage relies on a different tool but connects into one iterative pipeline.",
+            },
+            {
+              title: "First Steps.",
+              body:
+                "Pick one relevant tool, ship a mini project from concept to output, then note what to tweak next iteration.",
+            },
+          ],
+        },
+      ],
+    },
+    industryDetails: {
+      ai: {
+        title: "🧠 AI → AGI → ASI",
+        intro:
+          "From task-specific systems toward general intelligence and beyond—huge upside paired with governance duties.",
+        mindsetHeading: "Mindset Shift: From AI to AGI",
+        mindsetBody:
+          "Today’s AI excels at narrow tasks. AGI aims for cross-domain skills, transferring knowledge and solving novel problems. ASI surpasses human capability, offering leaps in productivity while raising questions around control, bias, and safety.",
+        examplesHeading: "Example Use Cases",
+        examples: [
+          { href: "#multimodal", title: "Multimodal Creative Assistant", sub: "One brief → script, storyboard, and still images for a moodboard." },
+          { href: "#research", title: "Concise Research Agent", sub: "Summaries from three trusted sources plus opposing viewpoints." },
+        ],
+        actionsHeading: "Quick Actions",
+        actions: [
+          { href: "#prompt", title: "Prompt Experiments", sub: "Take one product idea, test it in text & image models, document three prompt variations." },
+          { href: "#guardrails", title: "Personal Guardrails", sub: "Define three ethical boundaries (privacy, attribution, sensitive data) and enforce them." },
+        ],
+      },
+      crypto: {
+        title: "⛓️ Crypto in Finance",
+        intro:
+          "Programmable finance built on blockchain: global value transfer, asset tokenization, and smart contracts.",
+        mindsetHeading: "Mindset Shift: Programmable Assets",
+        mindsetBody:
+          "Crypto isn’t just ‘digital money’—it’s programmable ownership. Rules are transparent, verifiable, and enforced automatically on-chain.",
+        examplesHeading: "Example Use Cases",
+        examples: [
+          { href: "#token", title: "Property Tokenization", sub: "Fractional ownership of real estate unlocks liquidity and access." },
+          { href: "#payment", title: "Global Payments", sub: "Cross-border remittance with fewer intermediaries, lower fees, faster settlements." },
+        ],
+        actionsHeading: "Quick Actions",
+        actions: [
+          { href: "#wallet", title: "Try a Testnet Wallet", sub: "Create a wallet, move faucet tokens, and learn flows without capital risk." },
+          { href: "#contract", title: "Read a Simple Contract", sub: "Study mint/transfer functions to understand user rights and limits." },
+        ],
+      },
+      biotech: {
+        title: "🧬 Biotechnology",
+        intro:
+          "Biology, chemistry, and technology for next-gen health, food, and materials—accelerated by AI-led research.",
+        mindsetHeading: "Mindset Shift: Everyday Biotech",
+        mindsetBody:
+          "Biotech stretches beyond medicine. From sustainable biomaterials to precision agriculture, it touches supply chains, waste, and wellness.",
+        examplesHeading: "Example Use Cases",
+        examples: [
+          { href: "#protein", title: "AI-Designed Proteins/Drugs", sub: "Faster molecular design leading to quicker lab trials." },
+          { href: "#precision", title: "Precision Agriculture", sub: "Sensors plus AI guide irrigation and nutrients with minimal waste." },
+        ],
+        actionsHeading: "Quick Actions",
+        actions: [
+          { href: "#database", title: "Follow a Public Database", sub: "Pick a trusted source and summarize one innovation per week in plain language." },
+          { href: "#map", title: "Map Local Applications", sub: "List three biotech opportunities for your city/community (food, waste, preventative health)." },
+        ],
+      },
+      energy: {
+        title: "⚡ Renewable Energy",
+        intro:
+          "Clean energy transition: solar, wind, hydro, geothermal, biomass—backed by large-scale batteries and smart grids.",
+        mindsetHeading: "Mindset Shift: Long-Term Investment",
+        mindsetBody:
+          "Renewables aren’t just greener; they’re strategic for cost, resilience, and new business opportunities from deployment to maintenance.",
+        examplesHeading: "Example Use Cases",
+        examples: [
+          { href: "#solar", title: "Residential Solar", sub: "Produce local power and, when allowed, sell surplus back to the grid." },
+          { href: "#battery", title: "Battery + Smart Meter", sub: "Store energy off-peak, use it during peak hours to cut bills and ease the grid." },
+        ],
+        actionsHeading: "Quick Actions",
+        actions: [
+          { href: "#audit", title: "Mini Consumption Audit", sub: "Review a month’s kWh usage, flag the three hungriest devices." },
+          { href: "#calculator", title: "Solar Potential Calculator", sub: "Estimate rooftop output from area and local irradiation—get a rough payback." },
+        ],
+      },
+      space: {
+        title: "🚀 Space Exploration",
+        intro:
+          "From state missions to commercial space economy: satellites, earth observation, planetary ventures, orbital services.",
+        mindsetHeading: "Mindset Shift: Space Data for Earth",
+        mindsetBody:
+          "Space exploration yields earth observation data essential for agriculture, logistics, disaster mitigation, and environmental governance—not just ‘going to Mars’.",
+        examplesHeading: "Example Use Cases",
+        examples: [
+          { href: "#soil", title: "Soil Moisture Mapping", sub: "Satellite imagery helps farmers detect drought zones and plan irrigation." },
+          { href: "#fires", title: "Wildfire Monitoring", sub: "Thermal signatures and smoke detection enable faster response and lower loss." },
+        ],
+        actionsHeading: "Quick Actions",
+        actions: [
+          { href: "#maps", title: "Explore Open Satellite Maps", sub: "Use public data portals to inspect weather/coverage in real time." },
+          { href: "#usecase", title: "Draft a Local Use Case", sub: "Outline how satellite data could support a local issue (floods, congestion, agriculture)." },
+        ],
+      },
+    },
+    works: {
+      title: "Works",
+      intro: "Curated showcase (manual). For now, the buttons point to Google Drive.",
+      buttons: [
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", label: "AI Generated Video" },
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", label: "AI Generated Image" },
+      ],
+      gallery: [
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", title: "AI Generated Video (1)", sub: "Prompt & scene direction" },
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", title: "AI Generated Image (1)", sub: "Prompt engineering" },
+      ],
+    },
+    projects: {
+      title: "Projects",
+      intro: "Public project list. Both buttons currently point to Google Drive.",
+      buttons: [
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", label: "AI Generated Video" },
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", label: "AI Generated Image" },
+      ],
+      gallery: [
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", title: "AI Video – Prototype", sub: "Storyboard & direction" },
+        { href: "https://drive.google.com/drive/folders/1uYdeERkYw8nyMBfwkTa2Qn6J8M0UBROO?usp=sharing", title: "AI Image – Prototype", sub: "Prompt style exploration" },
+      ],
+    },
+    contact: {
+      title: "Contact",
+      contacts: [
+        { href: "mailto:rifqyhazimforbs@gmail.com", title: "Email", sub: "rifqyhazimforbs@gmail.com" },
+        { href: "https://wa.me/6282123008601", title: "WhatsApp", sub: "+62 821 2300 8601" },
+        { href: "https://github.com/rifqyhazim22", title: "GitHub", sub: "rifqyhazim22" },
+        { href: "https://instagram.com/rifqy__hazim._", title: "Instagram", sub: "@rifqy__hazim._" },
+      ],
+      faqHeading: "FAQ (How I Work)",
+      faq: [
+        { href: "#privacy", title: "Does this site store personal data?", sub: "No. Contact details stay off the site—use the channels above." },
+        { href: "#tools", title: "What tools do you use most?", sub: "Astro for fast static delivery, GitHub for versioning, Vercel for deploys, plus AI tooling for research and production." },
+        { href: "#flow", title: "What does the workflow look like?", sub: "Brief → define goals & constraints → quick prototype → short feedback loops → delivery." },
+      ],
+    },
+  },
+};
+
+export function getDictionary(language: Language): Dictionary {
+  return dictionaries[language];
+}

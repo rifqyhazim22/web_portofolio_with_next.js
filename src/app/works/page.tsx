@@ -1,40 +1,37 @@
-import type { Metadata } from "next";
 import NextSteps from "@/components/NextSteps";
-import { DRIVE_URL } from "@/data/links";
+import { getDictionary } from "@/i18n/dictionaries";
+import { getCurrentLanguage } from "@/lib/language";
 
-export const metadata: Metadata = {
-  title: "Works — Rifqy Hazim HR",
-};
+export default async function WorksPage() {
+  const language = await getCurrentLanguage();
+  const dictionary = getDictionary(language);
+  const { works, nextStepsHeading, navLabels } = dictionary;
 
-export default function WorksPage() {
   return (
     <div>
-      <h1 className="h1">Karya</h1>
-      <p className="sub">Showcase terkurasi (manual). Untuk saat ini, tombol di bawah mengarah ke Google Drive.</p>
+      <h1 className="h1">{works.title}</h1>
+      <p className="sub">{works.intro}</p>
 
       <div className="nav" style={{ margin: "12px 0 18px 0" }}>
-        <a className="pill" href={DRIVE_URL} target="_blank" rel="noopener">
-          AI Generated Video
-        </a>
-        <a className="pill" href={DRIVE_URL} target="_blank" rel="noopener">
-          AI Generated Image
-        </a>
+        {works.buttons.map((button) => (
+          <a key={button.label} className="pill" href={button.href} target="_blank" rel="noopener">
+            {button.label}
+          </a>
+        ))}
       </div>
 
       <div className="grid grid-2" style={{ marginTop: "6px" }}>
-        <a className="card" href={DRIVE_URL} target="_blank" rel="noopener">
-          <div className="k">AI Generated Video (1)</div>
-          <div className="sub">Prompt & scene direction</div>
-        </a>
-        <a className="card" href={DRIVE_URL} target="_blank" rel="noopener">
-          <div className="k">AI Generated Image (1)</div>
-          <div className="sub">Prompt engineering</div>
-        </a>
+        {works.gallery.map((item) => (
+          <a key={item.title} className="card" href={item.href} target="_blank" rel="noopener">
+            <div className="k">{item.title}</div>
+            <div className="sub">{item.sub}</div>
+          </a>
+        ))}
       </div>
 
       <hr />
 
-      <NextSteps current="works" />
+      <NextSteps current="works" heading={nextStepsHeading} navLabels={navLabels} />
     </div>
   );
 }
