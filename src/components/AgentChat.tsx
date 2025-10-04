@@ -170,6 +170,7 @@ export default function AgentChat() {
   return (
     <div
       className="agent"
+      data-hover={allowHover ? "true" : undefined}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

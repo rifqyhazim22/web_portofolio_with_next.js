@@ -887,6 +887,10 @@ body::before {
   z-index: 120;
 }
 
+.agent[data-hover="true"] .agent__panel {
+  pointer-events: auto;
+}
+
 .agent__launcher {
   box-shadow: 0 14px 28px rgba(11, 18, 32, 0.4);
   background: linear-gradient(135deg, rgba(122, 162, 255, 0.9), rgba(111, 89, 255, 0.85));
