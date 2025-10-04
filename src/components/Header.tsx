@@ -9,7 +9,7 @@ import {
 import type { Language } from "@/lib/language";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, type FocusEvent } from "react";
+import { useEffect, useRef, useState, type FocusEvent, type PointerEvent as ReactPointerEvent } from "react";
 import BaseLink from "./BaseLink";
 import LanguageToggle from "./LanguageToggle";
 import ThemeToggle from "./ThemeToggle";
@@ -42,6 +42,7 @@ export default function Header({ language, brand, navLabels, languageToggle }: H
   const servicesRef = useRef<HTMLLIElement>(null);
   const submenuTimer = useRef<number | undefined>(undefined);
   const [controlsWidth, setControlsWidth] = useState(0);
+  const menuHoverTimer = useRef<number | undefined>(undefined);
 
   const servicesItem = headerNav.find((item) => item.type === "menu");
   const servicesChildren: HeaderNavChild[] = servicesItem?.type === "menu"
@@ -134,20 +135,47 @@ export default function Header({ language, brand, navLabels, languageToggle }: H
     };
   }, [menuOpen]);
 
-  // Clear submenu hover timer on unmount
+  // Clear hover timers on unmount
   useEffect(() => () => {
     if (submenuTimer.current) {
       window.clearTimeout(submenuTimer.current);
     }
+    if (menuHoverTimer.current) {
+      window.clearTimeout(menuHoverTimer.current);
+    }
   }, []);
 
-  const toggleMenu = () => {
-    setMenuOpen((open) => !open);
+  const clearMenuHoverTimer = () => {
+    if (menuHoverTimer.current) {
+      window.clearTimeout(menuHoverTimer.current);
+      menuHoverTimer.current = undefined;
+    }
+  };
+
+  const openMenu = () => {
+    clearMenuHoverTimer();
+    setMenuOpen(true);
   };
 
   const closeMenu = () => {
+    clearMenuHoverTimer();
     setMenuOpen(false);
     setSubmenuOpen(false);
+  };
+
+  const toggleMenu = () => {
+    if (menuOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  };
+
+  const scheduleCloseMenu = () => {
+    clearMenuHoverTimer();
+    menuHoverTimer.current = window.setTimeout(() => {
+      closeMenu();
+    }, 160);
   };
 
   const handleNavigate = () => {
@@ -190,6 +218,40 @@ export default function Header({ language, brand, navLabels, languageToggle }: H
       const active = document.activeElement;
       if (!active || !servicesRef.current.contains(active)) {
         setSubmenuOpen(false);
+      }
+    }, 0);
+  };
+
+  const shouldHandleHover = (event: ReactPointerEvent<HTMLElement>) => {
+    if (event.pointerType === "touch") {
+      return false;
+    }
+    if (event.pointerType === "mouse" || event.pointerType === "pen") {
+      return typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches;
+    }
+    return false;
+  };
+
+  const handleMenuPointerEnter = (event: ReactPointerEvent<HTMLElement>) => {
+    if (!shouldHandleHover(event)) return;
+    openMenu();
+  };
+
+  const handleMenuPointerLeave = (event: ReactPointerEvent<HTMLElement>) => {
+    if (!shouldHandleHover(event)) return;
+    scheduleCloseMenu();
+  };
+
+  const handleMenuBlur = (event: FocusEvent<HTMLElement>) => {
+    const related = event.relatedTarget as Node | null;
+    if (related && controlsRef.current?.contains(related)) {
+      return;
+    }
+
+    window.setTimeout(() => {
+      const active = document.activeElement;
+      if (!active || !controlsRef.current?.contains(active)) {
+        closeMenu();
       }
     }, 0);
   };
@@ -282,6 +344,10 @@ export default function Header({ language, brand, navLabels, languageToggle }: H
               aria-expanded={menuOpen}
               aria-controls="site-menu"
               onClick={toggleMenu}
+              onPointerEnter={handleMenuPointerEnter}
+              onPointerLeave={handleMenuPointerLeave}
+              onFocus={openMenu}
+              onBlur={handleMenuBlur}
             >
               MENU
             </button>
@@ -292,6 +358,10 @@ export default function Header({ language, brand, navLabels, languageToggle }: H
               ref={overlayRef}
               className="menu-overlay card"
               style={controlsWidth ? { width: controlsWidth } : undefined}
+              onPointerEnter={handleMenuPointerEnter}
+              onPointerLeave={handleMenuPointerLeave}
+              onFocusCapture={openMenu}
+              onBlur={handleMenuBlur}
             >
               <nav aria-label="Primary navigation">
                 <ul className="menu-list">
