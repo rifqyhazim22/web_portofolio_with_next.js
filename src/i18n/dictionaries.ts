@@ -1,3 +1,5 @@
+import { loadHomeContent } from "@/content/home";
+import type { HomeContent } from "@/content/home/types";
 import type { NavLabelKey } from "@/data/navLinks";
 import type { Language } from "@/lib/language";
 
@@ -56,23 +58,7 @@ export interface Dictionary {
     dateLabel: string;
     backToIndustry: string;
   };
-  home: {
-    heroName: string;
-    heroRole: string;
-    heroDescription: string;
-    ctas: PillLink[];
-    quotesLabel: string;
-    quote: string;
-    whatIDoHeading: string;
-    whatIDo: LinkCard[];
-    playbooksHeading: string;
-    playbooksDescription: string;
-    playbooksCta: PillLink;
-    learningHeading: string;
-    learningItems: LinkCard[];
-    updatesHeading: string;
-    updatesCta: PillLink;
-  };
+  home: HomeContent;
   about: {
     title: string;
     intro: string;
@@ -146,64 +132,7 @@ const dictionaries: Record<Language, Dictionary> = {
       dateLabel: "Tanggal",
       backToIndustry: "← Kembali ke Playbooks",
     },
-    home: {
-      heroName: "Rifqy Hazim HR",
-      heroRole: "AI Prompter & Strategist · Web Developer",
-      heroDescription:
-        "Saya merancang pengalaman digital dengan AI—ringkas, terukur, dan bisa dipakai hari ini.",
-      ctas: [
-        { href: "/works", label: "Lihat Works ↗" },
-        { href: "/industry", label: "Belajar AI (Gratis) ↗" },
-      ],
-      quotesLabel: "Quotes",
-      quote:
-        "In the beginning there was dark. Until someone set themselves aflame. Only then did the universe know light.",
-      whatIDoHeading: "Apa yang Saya Lakukan",
-      whatIDo: [
-        {
-          href: "/works",
-          title: "Prompt Engineering",
-          sub: "Video, image, text—dari ide ke hasil.",
-        },
-        {
-          href: "/projects",
-          title: "Web Delivery",
-          sub: "Landing ringan & cepat (Astro · GitHub).",
-        },
-        {
-          href: "/industry",
-          title: "Strategy & Edukasi",
-          sub: "Playbooks & kerangka kerja yang bisa dipakai.",
-        },
-      ],
-      playbooksHeading: "Playbooks",
-      playbooksDescription:
-        "Kerangka kerja praktis untuk lima industri masa depan—AI→AGI/ASI, Crypto, Biotechnology, Energi Terbarukan, dan Space.",
-      playbooksCta: {
-        href: "/industry",
-        label: "Lihat Playbooks & Edukasi AI →",
-      },
-      learningHeading: "Learning Hub",
-      learningItems: [
-        {
-          href: "/industry#ai-basics",
-          title: "AI Basics",
-          sub: "Konsep inti, istilah, dan etika; landasan yang aman & praktis.",
-        },
-        {
-          href: "/industry#prompt-patterns",
-          title: "Prompt Patterns",
-          sub: "Polanya apa, kapan dipakai, dan cara menghindari jebakan umum.",
-        },
-        {
-          href: "/industry#tools-workflow",
-          title: "Tools & Workflow",
-          sub: "Pipeline dari brief → eksperimen → hasil, dengan contoh alat yang ringan.",
-        },
-      ],
-      updatesHeading: "Updates",
-      updatesCta: { href: "/updates", label: "Lihat semua updates →" },
-    },
+    home: loadHomeContent("id"),
     about: {
       title: "About",
       intro:
@@ -588,61 +517,7 @@ const dictionaries: Record<Language, Dictionary> = {
       dateLabel: "Date",
       backToIndustry: "← Back to Playbooks",
     },
-    home: {
-      heroName: "Rifqy Hazim HR",
-      heroRole: "AI Prompter & Strategist · Web Developer",
-      heroDescription:
-        "I design AI-driven digital experiences—concise, measurable, and ready to use today.",
-      ctas: [
-        { href: "/works", label: "View Works ↗" },
-        { href: "/industry", label: "Learn AI (Free) ↗" },
-      ],
-      quotesLabel: "Quote",
-      quote:
-        "In the beginning there was dark. Until someone set themselves aflame. Only then did the universe know light.",
-      whatIDoHeading: "What I Do",
-      whatIDo: [
-        {
-          href: "/works",
-          title: "Prompt Engineering",
-          sub: "Video, image, text—from brief to final output.",
-        },
-        {
-          href: "/projects",
-          title: "Web Delivery",
-          sub: "Lightweight landings & fast iteration (Astro · GitHub).",
-        },
-        {
-          href: "/industry",
-          title: "Strategy & Education",
-          sub: "Reusable playbooks and frameworks.",
-        },
-      ],
-      playbooksHeading: "Playbooks",
-      playbooksDescription:
-        "Practical frameworks for five future industries—AI→AGI/ASI, Crypto, Biotechnology, Renewable Energy, and Space.",
-      playbooksCta: { href: "/industry", label: "Browse Playbooks & AI Education →" },
-      learningHeading: "Learning Hub",
-      learningItems: [
-        {
-          href: "/industry#ai-basics",
-          title: "AI Basics",
-          sub: "Core concepts, vocabulary, and ethics for a safe starting point.",
-        },
-        {
-          href: "/industry#prompt-patterns",
-          title: "Prompt Patterns",
-          sub: "When to use each pattern and how to avoid common traps.",
-        },
-        {
-          href: "/industry#tools-workflow",
-          title: "Tools & Workflow",
-          sub: "Pipeline from brief → experiment → result, with lightweight tooling examples.",
-        },
-      ],
-      updatesHeading: "Updates",
-      updatesCta: { href: "/updates", label: "See all updates →" },
-    },
+    home: loadHomeContent("en"),
     about: {
       title: "About",
       intro:

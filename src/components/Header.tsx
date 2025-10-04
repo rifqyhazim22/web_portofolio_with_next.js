@@ -12,6 +12,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type FocusEvent, type PointerEvent as ReactPointerEvent } from "react";
 import BaseLink from "./BaseLink";
 import LanguageToggle from "./LanguageToggle";
+import PaletteToggle from "./PaletteToggle";
+import TextScaleToggle from "./TextScaleToggle";
 import ThemeToggle from "./ThemeToggle";
 
 function isActive(pathname: string, href: string) {
@@ -337,6 +339,8 @@ export default function Header({ language, brand, navLabels, languageToggle }: H
           <div className="cluster-controls">
             <LanguageToggle language={language} label={languageToggle.label} options={languageToggle.options} />
             <ThemeToggle />
+            <PaletteToggle />
+            <TextScaleToggle />
             <button
               type="button"
               className="pill menu-button"

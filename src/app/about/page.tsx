@@ -1,4 +1,7 @@
-import BaseLink from "@/components/BaseLink";
+import CapabilitiesGrid from "@/components/CapabilitiesGrid";
+import Timeline from "@/components/Timeline";
+import TestimonialsDeck from "@/components/TestimonialsDeck";
+import { loadAboutContent } from "@/content/about";
 import NextSteps from "@/components/NextSteps";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentLanguage } from "@/lib/language";
@@ -6,63 +9,55 @@ import { getCurrentLanguage } from "@/lib/language";
 export default async function AboutPage() {
   const language = await getCurrentLanguage();
   const dictionary = getDictionary(language);
-  const { about, nextStepsHeading, navLabels } = dictionary;
+  const aboutContent = loadAboutContent(language);
+  const { nextStepsHeading, navLabels } = dictionary;
+  const { hero, story, timeline, capabilities, values, testimonials } = aboutContent;
 
   return (
-    <div>
-      <section style={{ marginTop: "10px" }}>
-        <h1 className="h1">{about.title}</h1>
-        <p className="sub" style={{ maxWidth: "70ch" }}>{about.intro}</p>
+    <div className="about">
+      <section className="about__hero">
+        <h1 className="h1">{hero.title}</h1>
+        <p className="about__tagline">{hero.tagline}</p>
+        <p className="sub about__summary">{hero.summary}</p>
       </section>
 
-      <hr />
-
-      <section>
-        <h2 className="h2">{about.philosophyHeading}</h2>
-        <div className="card">
-          <p className="sub" style={{ margin: 0 }}>{about.philosophyBody}</p>
-        </div>
-      </section>
-
-      <hr />
-
-      <section>
-        <h2 className="h2">{about.workHeading}</h2>
-        <div className="grid grid-3" style={{ marginTop: "10px" }}>
-          {about.workItems.map((item) => (
-            <BaseLink
-              key={item.href}
-              className="card"
-              href={item.href}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <div className="k">{item.title}</div>
-              <div className="sub">{item.sub}</div>
-            </BaseLink>
+      <section className="about__section">
+        <h2 className="h2">{story.heading}</h2>
+        <div className="about__story card">
+          {story.paragraphs.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
           ))}
         </div>
       </section>
 
-      <hr />
+      <section className="about__section">
+        <h2 className="h2">{timeline.heading}</h2>
+        <Timeline items={timeline.items} />
+      </section>
 
-      <section>
-        <h2 className="h2">{about.learningHeading}</h2>
-        <div className="grid grid-3" style={{ marginTop: "10px" }}>
-          {about.learningItems.map((item) => (
-            <BaseLink
-              key={item.href}
-              className="card"
-              href={item.href}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <div className="k">{item.title}</div>
-              {item.sub ? <div className="sub">{item.sub}</div> : null}
-            </BaseLink>
+      <section className="about__section">
+        <h2 className="h2">{capabilities.heading}</h2>
+        <CapabilitiesGrid clusters={capabilities.clusters} />
+      </section>
+
+      <section className="about__section">
+        <h2 className="h2">{values.heading}</h2>
+        <div className="about__values">
+          {values.items.map((item) => (
+            <article key={item.title} className="about__value card">
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
           ))}
         </div>
       </section>
 
-      <hr />
+      <section className="about__section">
+        <h2 className="h2">{testimonials.heading}</h2>
+        <TestimonialsDeck items={testimonials.items} cta={testimonials.cta} />
+      </section>
+
+      <div className="hr" />
 
       <NextSteps current="about" heading={nextStepsHeading} navLabels={navLabels} />
     </div>

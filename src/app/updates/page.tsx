@@ -13,7 +13,7 @@ export default async function UpdatesPage() {
       <h1 className="h1">{updates.title}</h1>
       <p className="sub">{updates.intro}</p>
 
-      <UpdatesList items={updates.list} showAllLink={false} allLinkLabel={home.updatesCta.label} />
+      <UpdatesList items={updates.list} showAllLink={false} allLinkLabel={home.updates.cta.label} />
 
       <hr />
 

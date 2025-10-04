@@ -1,3 +1,4 @@
+import Hero from "@/components/Hero";
 import BaseLink from "@/components/BaseLink";
 import NextSteps from "@/components/NextSteps";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -9,30 +10,20 @@ export default async function HomePage() {
   const { home, updates, nextStepsHeading, navLabels } = dictionary;
 
   return (
-    <div>
-      <h1 className="h1">{home.heroName}</h1>
-      <p className="sub">{home.heroRole}</p>
-      <p>{home.heroDescription}</p>
+    <div className="home">
+      <Hero hero={home.hero} />
 
-      <div className="pills" style={{ margin: "10px 0 18px" }}>
-        {home.ctas.map((cta) => (
-          <BaseLink key={cta.href} href={cta.href} className="pill">
-            {cta.label}
-          </BaseLink>
-        ))}
-      </div>
-
-      <section className="card">
-        <div className="k" style={{ marginBottom: "6px" }}>
-          {home.quotesLabel}
-        </div>
-        <div className="sub">{home.quote}</div>
+      <section className="card home__quote">
+        <div className="home__quote-label">{home.quote.label}</div>
+        <p className="home__quote-text">{home.quote.text}</p>
       </section>
 
-      <section>
-        <h2 className="h2">{home.whatIDoHeading}</h2>
-        <div className="grid grid-2">
-          {home.whatIDo.map((item) => (
+      <section className="home__section">
+        <header className="home__section-header">
+          <h2 className="h2">{home.whatIDo.heading}</h2>
+        </header>
+        <div className="grid grid-3 home__tiles">
+          {home.whatIDo.items.map((item) => (
             <BaseLink key={item.href} className="tile" href={item.href}>
               <div className="k">{item.title}</div>
               <div className="sub">{item.sub}</div>
@@ -41,20 +32,24 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section>
-        <h2 className="h2">{home.playbooksHeading}</h2>
-        <p className="sub">{home.playbooksDescription}</p>
-        <div className="pills" style={{ marginTop: "10px" }}>
-          <BaseLink href={home.playbooksCta.href} className="pill">
-            {home.playbooksCta.label}
+      <section className="home__section">
+        <header className="home__section-header">
+          <h2 className="h2">{home.playbooks.heading}</h2>
+          <p className="sub home__section-sub">{home.playbooks.description}</p>
+        </header>
+        <div className="home__actions">
+          <BaseLink href={home.playbooks.cta.href} className="pill">
+            {home.playbooks.cta.label}
           </BaseLink>
         </div>
       </section>
 
-      <section>
-        <h2 className="h2">{home.learningHeading}</h2>
-        <div className="grid grid-2">
-          {home.learningItems.map((item) => (
+      <section className="home__section">
+        <header className="home__section-header">
+          <h2 className="h2">{home.learning.heading}</h2>
+        </header>
+        <div className="grid grid-3 home__tiles">
+          {home.learning.items.map((item) => (
             <BaseLink key={item.href} href={item.href} className="tile">
               <div className="k">{item.title}</div>
               <div className="sub">{item.sub}</div>
@@ -63,19 +58,21 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section>
-        <h2 className="h2">{home.updatesHeading}</h2>
-        <div className="grid">
-          {updates.list.map((item) => (
+      <section className="home__section">
+        <header className="home__section-header">
+          <h2 className="h2">{home.updates.heading}</h2>
+        </header>
+        <div className="grid home__tiles">
+          {updates.list.slice(0, 3).map((item) => (
             <BaseLink key={item.href} className="tile" href={item.href}>
               <div className="k">{item.title}</div>
               <div className="sub">{item.summary}</div>
             </BaseLink>
           ))}
         </div>
-        <div className="pills" style={{ marginTop: "12px" }}>
-          <BaseLink href="/updates" className="pill">
-            {home.updatesCta.label}
+        <div className="home__actions">
+          <BaseLink href={home.updates.cta.href} className="pill">
+            {home.updates.cta.label}
           </BaseLink>
         </div>
       </section>

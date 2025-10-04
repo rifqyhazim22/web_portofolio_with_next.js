@@ -1,0 +1,96 @@
+{
+  "hero": {
+    "name": "Rifqy Hazim HR",
+    "title": "AI Prompter & Strategist · Web Developer",
+    "tagline": "AI Engineer · Generative AI & LLM Specialist · Web & App Developer",
+    "summary": "I design AI-driven digital experiences—concise, measurable, and ready to ship today.",
+    "availability": "Open to collaborate on AI experiments, web delivery, and production-ready agents.",
+    "actions": [
+      {
+        "label": "View Works ↗",
+        "href": "/works",
+        "variant": "primary"
+      },
+      {
+        "label": "Learn AI (Free) ↗",
+        "href": "/industry",
+        "variant": "outline"
+      }
+    ],
+    "highlights": [
+      {
+        "label": "Experience",
+        "value": "5+ years building with AI & the web"
+      },
+      {
+        "label": "Focus",
+        "value": "Prompting · Agents · Delivery"
+      },
+      {
+        "label": "Base",
+        "value": "Bandung, Indonesia"
+      }
+    ],
+    "portraitSrc": "/images/hero.jpg",
+    "backgroundSrc": "/images/hero-background.png"
+  },
+  "quote": {
+    "label": "Quote",
+    "text": "In the beginning there was dark. Until someone set themselves aflame. Only then did the universe know light."
+  },
+  "whatIDo": {
+    "heading": "What I Do",
+    "items": [
+      {
+        "href": "/works",
+        "title": "Prompt Engineering",
+        "sub": "Video, image, text—from idea to finished output."
+      },
+      {
+        "href": "/projects",
+        "title": "Web Delivery",
+        "sub": "Lightweight landing pages & fast iteration (Astro · GitHub)."
+      },
+      {
+        "href": "/industry",
+        "title": "Strategy & Education",
+        "sub": "Playbooks and frameworks you can apply."
+      }
+    ]
+  },
+  "playbooks": {
+    "heading": "Playbooks",
+    "description": "Practical frameworks for five future industries—AI→AGI/ASI, Crypto, Biotechnology, Renewables, and Space.",
+    "cta": {
+      "label": "Browse Playbooks & AI Education →",
+      "href": "/industry"
+    }
+  },
+  "learning": {
+    "heading": "Learning Hub",
+    "items": [
+      {
+        "href": "/industry#ai-basics",
+        "title": "AI Basics",
+        "sub": "Core concepts, vocabulary, and ethics for a safe foundation."
+      },
+      {
+        "href": "/industry#prompt-patterns",
+        "title": "Prompt Patterns",
+        "sub": "When to use each pattern and how to avoid common traps."
+      },
+      {
+        "href": "/industry#tools-workflow",
+        "title": "Tools & Workflow",
+        "sub": "Brief → experiment → result with a lightweight pipeline."
+      }
+    ]
+  },
+  "updates": {
+    "heading": "Updates",
+    "cta": {
+      "label": "See all updates →",
+      "href": "/updates"
+    }
+  }
+}
