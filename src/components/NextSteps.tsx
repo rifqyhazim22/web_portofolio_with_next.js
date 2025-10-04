@@ -1,11 +1,11 @@
-import type { NavKey } from "@/data/navLinks";
+import type { NavKey, NavLabelKey } from "@/data/navLinks";
 import { navLinks } from "@/data/navLinks";
 import BaseLink from "./BaseLink";
 
 interface NextStepsProps {
   current?: NavKey;
   heading: string;
-  navLabels: Record<NavKey, string>;
+  navLabels: Record<NavLabelKey, string>;
 }
 
 export default function NextSteps({ current, heading, navLabels }: NextStepsProps) {

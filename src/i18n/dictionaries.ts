@@ -1,4 +1,4 @@
-import type { NavKey } from "@/data/navLinks";
+import type { NavLabelKey } from "@/data/navLinks";
 import type { Language } from "@/lib/language";
 
 interface LinkCard {
@@ -45,7 +45,7 @@ interface LearningCard {
 
 export interface Dictionary {
   brand: string;
-  navLabels: Record<NavKey, string>;
+  navLabels: Record<NavLabelKey, string>;
   languageToggle: {
     label: string;
     options: { id: string; en: string };
@@ -134,6 +134,7 @@ const dictionaries: Record<Language, Dictionary> = {
       works: "Works",
       projects: "Projects",
       contact: "Contact",
+      services: "Layanan",
     },
     languageToggle: {
       label: "Bahasa",
@@ -575,6 +576,7 @@ const dictionaries: Record<Language, Dictionary> = {
       works: "Works",
       projects: "Projects",
       contact: "Contact",
+      services: "Services",
     },
     languageToggle: {
       label: "Language",
