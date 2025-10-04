@@ -29,7 +29,9 @@ export default function AgentChat() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState<"id" | "en">("id");
+  const [allowHover, setAllowHover] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const hoverTimeout = useRef<number | null>(null);
 
   const placeholders = useMemo(
     () => ({
@@ -52,6 +54,26 @@ export default function AgentChat() {
   }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const media = window.matchMedia("(pointer: fine)");
+    const update = () => setAllowHover(media.matches);
+    update();
+    const listener = () => update();
+    if (typeof media.addEventListener === "function") {
+      media.addEventListener("change", listener);
+    } else if (typeof media.addListener === "function") {
+      media.addListener(listener);
+    }
+    return () => {
+      if (typeof media.removeEventListener === "function") {
+        media.removeEventListener("change", listener);
+      } else if (typeof media.removeListener === "function") {
+        media.removeListener(listener);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     if (open && messages.length === 0) {
       setMessages([{ role: "assistant", content: greeting[language] }]);
     }
@@ -61,6 +83,13 @@ export default function AgentChat() {
     if (!messagesEndRef.current) return;
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading, open]);
+
+  useEffect(() => () => {
+    if (hoverTimeout.current) {
+      window.clearTimeout(hoverTimeout.current);
+      hoverTimeout.current = null;
+    }
+  }, []);
 
   const handleSubmit = async () => {
     const trimmed = input.trim();
@@ -118,8 +147,32 @@ export default function AgentChat() {
     }
   };
 
+  const handleMouseEnter = () => {
+    if (!allowHover) return;
+    if (hoverTimeout.current) {
+      window.clearTimeout(hoverTimeout.current);
+      hoverTimeout.current = null;
+    }
+    setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (!allowHover) return;
+    if (hoverTimeout.current) {
+      window.clearTimeout(hoverTimeout.current);
+      hoverTimeout.current = null;
+    }
+    hoverTimeout.current = window.setTimeout(() => {
+      setOpen(false);
+    }, 140);
+  };
+
   return (
-    <div className="agent">
+    <div
+      className="agent"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <button
         type="button"
         className="agent__launcher pill"
