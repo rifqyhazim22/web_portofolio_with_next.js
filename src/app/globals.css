@@ -510,6 +510,16 @@ button.pill[disabled] {
     width: 100%;
     justify-content: center;
   }
+
+  .hero__portrait {
+    width: min(320px, 80vw);
+    margin-inline: auto;
+  }
+
+  .hero__portrait-image {
+    object-fit: contain;
+    background: var(--card);
+  }
 }
 
 .home {
