@@ -24,6 +24,67 @@ type AgentRequest = {
   location?: string;
 };
 
+const KNOWN_ROUTES = new Set([
+  "/",
+  "/about",
+  "/updates",
+  "/playbooks",
+  "/works",
+  "/projects",
+  "/contact",
+]);
+
+const ROUTE_ALIASES: Record<string, string> = {
+  "/industry": "/playbooks",
+  "/industries": "/playbooks",
+  "/playbook": "/playbooks",
+  "/learn": "/playbooks",
+};
+
+const KEYWORD_ROUTES: Array<{ route: string; keywords: string[] }> = [
+  { route: "/", keywords: ["home", "beranda", "start", "awal"] },
+  { route: "/about", keywords: ["about", "profile", "tentang"] },
+  { route: "/updates", keywords: ["update", "news", "blog"] },
+  { route: "/playbooks", keywords: ["playbook", "industry", "learning", "learn", "kelas"] },
+  { route: "/works", keywords: ["works", "work", "portfolio", "prompt", "showcase"] },
+  { route: "/projects", keywords: ["project", "projects", "web", "app"] },
+  { route: "/contact", keywords: ["contact", "hubungi", "email", "reach"] },
+];
+
+function normalizePath(value: string | null): string | null {
+  if (!value) return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (trimmed.startsWith("/")) {
+    return trimmed.replace(/\/$/, "").toLowerCase() || "/";
+  }
+  return ("/" + trimmed).replace(/\/$/, "").toLowerCase();
+}
+
+function resolveNavigationTarget(raw: string | null, messages: ChatMessage[]): string | null {
+  let normalized = normalizePath(raw);
+  if (normalized && ROUTE_ALIASES[normalized]) {
+    normalized = ROUTE_ALIASES[normalized];
+  }
+  if (normalized && KNOWN_ROUTES.has(normalized)) {
+    return normalized;
+  }
+
+  const lastUserMessage = [...messages].reverse().find((msg) => msg.role === "user")?.content ?? "";
+  const sources = [normalized ?? "", lastUserMessage.toLowerCase()];
+
+  for (const source of sources) {
+    if (!source) continue;
+    for (const { route, keywords } of KEYWORD_ROUTES) {
+      if (keywords.some((keyword) => source.includes(keyword))) {
+        return route;
+      }
+    }
+  }
+
+  return null;
+}
+
 export async function POST(request: NextRequest) {
   if (!client.apiKey) {
     return NextResponse.json({ error: "OpenAI API key not configured." }, { status: 500 });
@@ -74,7 +135,8 @@ export async function POST(request: NextRequest) {
 
     const fullText = response.choices[0]?.message?.content?.trim() ?? "";
     const navigateMatch = fullText.match(/\[\[NAVIGATE:([^\]]+)\]\]/i);
-    const navigation = navigateMatch ? navigateMatch[1].trim() : null;
+    const rawNavigation = navigateMatch ? navigateMatch[1].trim() : null;
+    const navigation = resolveNavigationTarget(rawNavigation, messages);
     const cleanedText = fullText.replace(/\[\[NAVIGATE:[^\]]+\]\]/gi, "").trim();
 
     return NextResponse.json({ message: cleanedText, navigation });
