@@ -65,6 +65,31 @@ const ROUTE_CONFIG: RouteConfig[] = [
     ],
   },
   {
+    route: "/industry/ai",
+    aliases: ["/playbooks/ai", "/playbooks/agi", "/agi", "/ai-playbook", "/ai"],
+    keywords: ["agi", "ai", "general intelligence", "artificial intelligence", "ai playbook"],
+  },
+  {
+    route: "/industry/crypto",
+    aliases: ["/playbooks/crypto", "/crypto"],
+    keywords: ["crypto", "blockchain", "web3", "defi"],
+  },
+  {
+    route: "/industry/biotech",
+    aliases: ["/playbooks/biotech", "/biotech"],
+    keywords: ["biotech", "biology", "bio", "life science"],
+  },
+  {
+    route: "/industry/energy",
+    aliases: ["/playbooks/energy", "/energy"],
+    keywords: ["energy", "renewable", "solar", "wind"],
+  },
+  {
+    route: "/industry/space",
+    aliases: ["/playbooks/space", "/space"],
+    keywords: ["space", "orbital", "satellite", "exploration"],
+  },
+  {
     route: "/works",
     keywords: ["works", "work", "portfolio", "prompt", "showcase", "deliverables"],
   },
@@ -153,8 +178,11 @@ function resolveNavigationTarget(raw: string | null, messages: ChatMessage[]): s
           score += 3;
         }
         for (const alias of config.aliases ?? []) {
-          const aliasToken = alias.replace("/", "");
-          if (aliasToken && token === aliasToken) {
+          const aliasTokens = alias
+            .toLowerCase()
+            .split("/")
+            .filter(Boolean);
+          if (aliasTokens.some((aliasToken) => token === aliasToken)) {
             score += 2;
           }
         }
