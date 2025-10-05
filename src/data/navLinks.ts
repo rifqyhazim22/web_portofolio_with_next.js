@@ -1,7 +1,7 @@
 export const navLinks = [
   { href: "/about", key: "about" },
   { href: "/updates", key: "updates" },
-  { href: "/industry", key: "industry" },
+  { href: "/playbooks", key: "industry" },
   { href: "/works", key: "works" },
   { href: "/projects", key: "projects" },
   { href: "/contact", key: "contact" },
@@ -17,7 +17,7 @@ export const headerNav = [
       { href: "/projects", key: "projects" },
     ],
   },
-  { type: "link", href: "/industry", key: "industry" },
+  { type: "link", href: "/playbooks", key: "industry" },
   { type: "link", href: "/updates", key: "updates" },
   { type: "link", href: "/contact", key: "contact" },
 ] as const;

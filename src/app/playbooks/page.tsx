@@ -3,7 +3,7 @@ import NextSteps from "@/components/NextSteps";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentLanguage } from "@/lib/language";
 
-export default async function IndustryPage() {
+export default async function PlaybooksPage() {
   const language = await getCurrentLanguage();
   const dictionary = getDictionary(language);
   const { industry, nextStepsHeading, navLabels } = dictionary;
