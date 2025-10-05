@@ -20,6 +20,7 @@ type ChatMessage = {
 type AgentRequest = {
   messages: ChatMessage[];
   language?: "id" | "en";
+  location?: string;
 };
 
 export async function POST(request: NextRequest) {
@@ -34,7 +35,29 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON payload." }, { status: 400 });
   }
 
-  const { messages = [], language = "id" } = payload;
+  const { messages = [], language = "id", location } = payload;
+
+  const locationDescriptions: Record<string, string> = {
+    "/": "the home page (hero introduction, quotes, and latest highlights)",
+    "/about": "the About page (story, timeline, capabilities, and testimonials)",
+    "/playbooks": "the Playbooks hub (AI education and future-industry frameworks)",
+    "/updates": "the Updates page (short-form insights and announcements)",
+    "/works": "the Works gallery (selected prompt engineering deliverables)",
+    "/projects": "the Projects gallery (web/app builds)",
+    "/contact": "the Contact page (links, email, and FAQ)",
+  };
+
+  const locationContext = location
+    ? locationDescriptions[location] ?? `the page at ${location}`
+    : undefined;
+
+  const systemSections = [
+    SYSTEM_PROMPT,
+    `Current interface language: ${language === "en" ? "English" : "Indonesian"}. Respond using this language.`,
+    locationContext
+      ? `Visitor is currently browsing ${locationContext}. Take that into account when crafting your answer and navigation hints.`
+      : null,
+  ].filter(Boolean) as string[];
 
   try {
     const response = await client.chat.completions.create({
@@ -42,7 +65,7 @@ export async function POST(request: NextRequest) {
       messages: [
         {
           role: "system",
-          content: `${SYSTEM_PROMPT}\nCurrent interface language: ${language === "en" ? "English" : "Indonesian"}. Respond using this language.`,
+          content: systemSections.join("\n"),
         },
         ...messages,
       ],

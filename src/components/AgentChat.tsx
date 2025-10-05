@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Message {
   role: "user" | "assistant";
@@ -24,6 +24,7 @@ function resolveLanguage(): "id" | "en" {
 
 export default function AgentChat() {
   const router = useRouter();
+  const pathname = usePathname() ?? "/";
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -106,7 +107,7 @@ export default function AgentChat() {
       const response = await fetch("/api/agent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history, language }),
+        body: JSON.stringify({ messages: history, language, location: pathname }),
       });
 
       const data = (await response.json()) as AgentResponse;
