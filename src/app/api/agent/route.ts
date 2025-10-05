@@ -24,44 +24,68 @@ type AgentRequest = {
   location?: string;
 };
 
-const KNOWN_ROUTES = new Set([
-  "/",
-  "/about",
-  "/updates",
-  "/playbooks",
-  "/works",
-  "/projects",
-  "/contact",
-]);
+interface RouteConfig {
+  route: string;
+  aliases?: string[];
+  keywords: string[];
+}
 
-const ROUTE_ALIASES: Record<string, string> = {
-  "/industry": "/playbooks",
-  "/industries": "/playbooks",
-  "/playbook": "/playbooks",
-  "/learn": "/playbooks",
-};
-
-const KEYWORD_ROUTES: Array<{ route: string; keywords: string[] }> = [
-  { route: "/", keywords: ["home", "beranda", "start", "awal"] },
-  { route: "/about", keywords: ["about", "profile", "tentang"] },
-  { route: "/updates", keywords: ["update", "news", "blog"] },
+const ROUTE_CONFIG: RouteConfig[] = [
+  {
+    route: "/",
+    aliases: ["/home", "/beranda"],
+    keywords: ["home", "beranda", "start", "awal", "hero"],
+  },
+  {
+    route: "/about",
+    aliases: ["/profile", "/tentang"],
+    keywords: ["about", "profile", "bio", "story", "tentang"],
+  },
+  {
+    route: "/updates",
+    aliases: ["/news", "/blog"],
+    keywords: ["update", "news", "blog", "insight", "posts"],
+  },
   {
     route: "/playbooks",
+    aliases: ["/industry", "/industries", "/learning", "/learn"],
     keywords: [
       "playbook",
+      "playbooks",
       "industry",
       "learning",
       "learn",
       "kelas",
       "education",
       "ai education",
-      "educ",
+      "academy",
+      "study",
+      "course",
+      "framework",
     ],
   },
-  { route: "/works", keywords: ["works", "work", "portfolio", "prompt", "showcase"] },
-  { route: "/projects", keywords: ["project", "projects", "web", "app"] },
-  { route: "/contact", keywords: ["contact", "hubungi", "email", "reach"] },
+  {
+    route: "/works",
+    keywords: ["works", "work", "portfolio", "prompt", "showcase", "deliverables"],
+  },
+  {
+    route: "/projects",
+    keywords: ["project", "projects", "web", "app", "build", "case study"],
+  },
+  {
+    route: "/contact",
+    keywords: ["contact", "hubungi", "email", "reach", "connect"],
+  },
 ];
+
+const KNOWN_ROUTES = new Set(ROUTE_CONFIG.map((config) => config.route));
+
+const ROUTE_ALIAS_MAP = ROUTE_CONFIG.reduce<Record<string, string>>((acc, config) => {
+  for (const alias of config.aliases ?? []) {
+    acc[normalizePath(alias) ?? alias] = config.route;
+  }
+  return acc;
+}, {});
 
 function normalizePath(value: string | null): string | null {
   if (!value) return null;
@@ -73,25 +97,90 @@ function normalizePath(value: string | null): string | null {
   return ("/" + trimmed).replace(/\/$/, "").toLowerCase();
 }
 
+function levenshtein(a: string, b: string): number {
+  if (a === b) return 0;
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+
+  const matrix = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+
+  for (let i = 0; i <= a.length; i += 1) matrix[i][0] = i;
+  for (let j = 0; j <= b.length; j += 1) matrix[0][j] = j;
+
+  for (let i = 1; i <= a.length; i += 1) {
+    for (let j = 1; j <= b.length; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,
+        matrix[i][j - 1] + 1,
+        matrix[i - 1][j - 1] + cost,
+      );
+    }
+  }
+
+  return matrix[a.length][b.length];
+}
+
 function resolveNavigationTarget(raw: string | null, messages: ChatMessage[]): string | null {
   let normalized = normalizePath(raw);
-  if (normalized && ROUTE_ALIASES[normalized]) {
-    normalized = ROUTE_ALIASES[normalized];
+  if (normalized && ROUTE_ALIAS_MAP[normalized]) {
+    normalized = ROUTE_ALIAS_MAP[normalized];
   }
   if (normalized && KNOWN_ROUTES.has(normalized)) {
     return normalized;
   }
 
-  const lastUserMessage = [...messages].reverse().find((msg) => msg.role === "user")?.content ?? "";
-  const sources = [normalized ?? "", lastUserMessage.toLowerCase()];
+  const candidateScores = new Map<string, number>();
 
-  for (const source of sources) {
-    if (!source) continue;
-    for (const { route, keywords } of KEYWORD_ROUTES) {
-      if (keywords.some((keyword) => source.includes(keyword))) {
-        return route;
+  const consider = (route: string, score: number) => {
+    candidateScores.set(route, Math.max(candidateScores.get(route) ?? 0, score));
+  };
+
+  const evaluateString = (value: string, weight = 1) => {
+    if (!value) return;
+    const lower = value.toLowerCase();
+    for (const config of ROUTE_CONFIG) {
+      let score = 0;
+      for (const keyword of config.keywords) {
+        if (lower.includes(keyword)) {
+          score += 2;
+        }
+      }
+
+      const tokens = lower.match(/[a-z0-9]+/g) ?? [];
+      for (const token of tokens) {
+        if (token === config.route.slice(1)) {
+          score += 3;
+        }
+        for (const alias of config.aliases ?? []) {
+          const aliasToken = alias.replace("/", "");
+          if (aliasToken && token === aliasToken) {
+            score += 2;
+          }
+        }
+      }
+
+      if (normalized) {
+        const distance = levenshtein(lower, config.route);
+        if (distance <= 3) {
+          score += 3 - distance;
+        }
+      }
+
+      if (score > 0) {
+        consider(config.route, score * weight);
       }
     }
+  };
+
+  const lastUserMessage = [...messages].reverse().find((msg) => msg.role === "user")?.content ?? "";
+  evaluateString(normalized ?? "", 1.5);
+  evaluateString(raw ?? "", 1.5);
+  evaluateString(lastUserMessage, 2);
+
+  const best = [...candidateScores.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+  if (best && candidateScores.get(best)! >= 2) {
+    return best;
   }
 
   return null;
